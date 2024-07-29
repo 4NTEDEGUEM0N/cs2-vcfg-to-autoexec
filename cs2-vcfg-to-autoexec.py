@@ -3,9 +3,19 @@ from tkinter import filedialog
 from os import listdir
 
 root = tk.Tk()
+root.iconbitmap("n0rb3r7.ico")
+root.title("n0rb3r7 Major Champion CS2 vcfg Converter")
 
-canvas = tk.Canvas(root, width=640, height=360)
+WIDITH = 512
+HEIGTH = 512
+
+#canvas = tk.Canvas(root, width=640, height=360)
+canvas = tk.Canvas(root, width=512, height=512)
 canvas.pack()
+
+n0rb3r7 = tk.PhotoImage(file="n0rb3r7.png")
+#canvas.create_image(320, 180, image=n0rb3r7)
+canvas.create_image(256, 256, image=n0rb3r7)
 
 diretorio_inicial = ""
 def get_diretorio_inicial():
@@ -18,10 +28,10 @@ def get_diretorio_inicial():
 def texto_diretorio_inicial():
     canvas.delete("diretorio_inicial")
     tdi = tk.Label(root, text=diretorio_inicial, fg="blue", font=("Arial", 10, "bold"))
-    canvas.create_window(320, 60, window=tdi, tag="diretorio_inicial")
+    canvas.create_window(WIDITH/2, 60, window=tdi, tag="diretorio_inicial")
 
 button_diretorio_inicial = tk.Button(text="Diretório Inicial", command=get_diretorio_inicial, bg="brown", fg="white")
-canvas.create_window(320, 30, window=button_diretorio_inicial)
+canvas.create_window(WIDITH/2, 30, window=button_diretorio_inicial)
 
     
 diretorio_final = ""
@@ -34,10 +44,10 @@ def get_diretorio_final():
 def texto_diretorio_final():
     canvas.delete("diretorio_final")
     tdi = tk.Label(root, text=diretorio_final, fg="blue", font=("Arial", 10, "bold"))
-    canvas.create_window(320, 130, window=tdi, tag="diretorio_final")
+    canvas.create_window(WIDITH/2, 130, window=tdi, tag="diretorio_final")
 
 button_diretorio_final = tk.Button(text="Diretório Final", command=get_diretorio_final, bg="brown", fg="white")
-canvas.create_window(320, 100, window=button_diretorio_final)
+canvas.create_window(WIDITH/2, 100, window=button_diretorio_final)
 
 arquivos_filtrados = []
 def listar_arquivos():
@@ -49,8 +59,8 @@ def listar_arquivos():
         if "vcfg_" not in nome and ".vcfg" in nome:
             arquivos_filtrados.append(arquivos_total[chave])
     canvas.delete("arquivos")
-    canvas.create_text(320, 180, text="Arquivos vcfg encontrados:", fill='black', tag="arquivos")
-    XBASE, YBASE, DISTANCE = 320, 200, 20
+    canvas.create_text(WIDITH/2, 180, text="Arquivos vcfg encontrados:", fill='black', tag="arquivos")
+    XBASE, YBASE, DISTANCE = WIDITH/2, 200, 20
     for i, word in enumerate(arquivos_filtrados):  # <-- iterate words using `for` loop.
         canvas.create_text((XBASE, YBASE + i * DISTANCE),text=word, fill='blue', tag="arquivos")
 
@@ -87,10 +97,10 @@ def executar():
                                 comando1 = comando_cru[0]
                                 comando2 = comando_cru[1]
                                 autoexec.write("bind" + " " + comando1 + " " + comando2 + "\n")
-    canvas.create_text(380, 340, text="Pronto!", fill='green', tags=("fim","diretorio_inicial","diretorio_final"))
+    canvas.create_text(WIDITH/2 + 60, 340, text="Pronto!", fill='green', tags=("fim","diretorio_inicial","diretorio_final"))
 
 
 button_executar = tk.Button(text="Executar", command=executar, bg="brown", fg="white")
-canvas.create_window(320, 340, window=button_executar)
+canvas.create_window(WIDITH/2, 340, window=button_executar)
 
 root.mainloop()
