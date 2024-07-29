@@ -1,29 +1,43 @@
 from os import listdir
+from tkinter import filedialog
 
-print("Digite o diretório onde estão os arquivos vcfg")
+print("Selecione o diretório onde estão os arquivos vcfg")
 print("Exemplo: C:\\Program Files (x86)\\Steam\\userdata\\XXXXXXX\\730\\local\\cfg")
-diretorio_inicial = input("-> ").strip()
+input("Avançar -> [ENTER]")
+while True:
+    diretorio_inicial = filedialog.askdirectory()
+    diretorio_inicial += "/"
+    print("O diretório selecionado foi: " + diretorio_inicial)
+    print("Está correto? [s]/[n]")
+    resposta = input("-> ").strip().lower()
+    if resposta == "s":
+        break
 print()
 arquivos_total = listdir(diretorio_inicial)
 
 arquivos_filtrados = []
 for chave,nome in enumerate(arquivos_total):
-    if "vcfg_" not in nome and "vcfg" in nome:
+    if "vcfg_" not in nome and ".vcfg" in nome:
         arquivos_filtrados.append(arquivos_total[chave])
         
-print("Digite o diretório onde será criado o arquivo final")
+print("Selecione o diretório onde será criado o arquivo final")
 print("Exemplo: C:\\Users\\XXXXXX\\Desktop\\")
-diretorio_final = input("-> ").strip()
+input("Avançar -> [ENTER]")
+while True:
+    diretorio_final = filedialog.askdirectory()
+    diretorio_final += "/"
+    print("O diretório selecionado foi: " + diretorio_final)
+    print("Está correto? [s]/[n]")
+    resposta = input("-> ").strip().lower()
+    if resposta == "s":
+        break
 print()
-
-if diretorio_final[len(diretorio_final) - 1] != "\\" and diretorio_final[len(diretorio_final) - 1] != "/":
-    diretorio_final += "\\"
 
 with open(diretorio_final + "autoexec.cfg","w") as autoexec:
     print("Arquivos vcfg encontrados: ")
     for cfg in arquivos_filtrados:
         print(cfg)
-        with open("C:\\Users\\Thiago\\Desktop\\userdata\\"+ cfg,"r") as userdata:
+        with open(diretorio_inicial + cfg,"r") as userdata:
             linhas_userdata = userdata.read().splitlines()
             aberto = linhas_userdata.count("}") + linhas_userdata.count("\t}")
             tipo = ""
@@ -56,4 +70,4 @@ with open(diretorio_final + "autoexec.cfg","w") as autoexec:
 
 print()
 print("Arquivo autoexec.cfg gerado em: " + diretorio_final)
-                
+input("Fechar - [ENTER]")
