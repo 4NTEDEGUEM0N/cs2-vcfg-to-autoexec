@@ -1,14 +1,28 @@
 from os import listdir
 
-arquivos = listdir("C:\\Users\\Thiago\\Desktop\\userdata\\")
+print("Digite o diretório onde estão os arquivos vcfg")
+print("Exemplo: C:\\Program Files (x86)\\Steam\\userdata\\XXXXXXX\\730\\local\\cfg")
+diretorio_inicial = input("-> ").strip()
+print()
+arquivos_total = listdir(diretorio_inicial)
 
-for chave,nome in enumerate(arquivos):
-    if "vcfg_" in nome or "vcfg" not in nome:
-        arquivos.pop(chave)
+arquivos_filtrados = []
+for chave,nome in enumerate(arquivos_total):
+    if "vcfg_" not in nome and "vcfg" in nome:
+        arquivos_filtrados.append(arquivos_total[chave])
         
-with open("C:\\Users\\Thiago\\Desktop\\userdata\\resultado\\autoexec.cfg","w") as autoexec:
-    for cfg in arquivos:
-        print(cfg + " Ok!")
+print("Digite o diretório onde será criado o arquivo final")
+print("Exemplo: C:\\Users\\XXXXXX\\Desktop\\")
+diretorio_final = input("-> ").strip()
+print()
+
+if diretorio_final[len(diretorio_final) - 1] != "\\" and diretorio_final[len(diretorio_final) - 1] != "/":
+    diretorio_final += "\\"
+
+with open(diretorio_final + "autoexec.cfg","w") as autoexec:
+    print("Arquivos vcfg encontrados: ")
+    for cfg in arquivos_filtrados:
+        print(cfg)
         with open("C:\\Users\\Thiago\\Desktop\\userdata\\"+ cfg,"r") as userdata:
             linhas_userdata = userdata.read().splitlines()
             aberto = linhas_userdata.count("}") + linhas_userdata.count("\t}")
@@ -39,6 +53,7 @@ with open("C:\\Users\\Thiago\\Desktop\\userdata\\resultado\\autoexec.cfg","w") a
                             comando1 = comando_cru[0]
                             comando2 = comando_cru[1]
                             autoexec.write("bind" + " " + comando1 + " " + comando2 + "\n")
-                        
-print("Pronto!")
+
+print()
+print("Arquivo autoexec.cfg gerado em: " + diretorio_final)
                 
