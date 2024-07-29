@@ -1,9 +1,23 @@
 import tkinter as tk
 from tkinter import filedialog
 from os import listdir
+import sys
+import os
+
+def resource_path(relative_path):
+    """ Get absolute path to resource, works for dev and for PyInstaller """
+    try:
+        # PyInstaller creates a temp folder and stores path in _MEIPASS
+        base_path = sys._MEIPASS
+    except Exception:
+        base_path = os.path.abspath(".")
+
+    return os.path.join(base_path, relative_path)
 
 root = tk.Tk()
-root.iconbitmap("n0rb3r7.ico")
+iconPath = resource_path("n0rb3r7.ico")
+root.iconbitmap(iconPath)
+#root.iconbitmap("n0rb3r7.ico")
 root.title("n0rb3r7 Major Champion CS2 vcfg Converter")
 
 WIDITH = 512
@@ -13,7 +27,8 @@ HEIGTH = 512
 canvas = tk.Canvas(root, width=512, height=512)
 canvas.pack()
 
-n0rb3r7 = tk.PhotoImage(file="n0rb3r7.png")
+backgroudImagePath = resource_path("n0rb3r7.png")
+n0rb3r7 = tk.PhotoImage(file=backgroudImagePath)
 #canvas.create_image(320, 180, image=n0rb3r7)
 canvas.create_image(256, 256, image=n0rb3r7)
 
@@ -104,3 +119,4 @@ button_executar = tk.Button(text="Executar", command=executar, bg="brown", fg="w
 canvas.create_window(WIDITH/2, 340, window=button_executar)
 
 root.mainloop()
+
